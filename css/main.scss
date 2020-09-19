@@ -1,0 +1,554 @@
+// Author: John Thomas Carlos
+// Copyright © 2020
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+// Mixins
+$tablet_width: 700px;
+$tablet_height: 900px;
+@mixin tablet {
+    @media (min-width: #{$tablet_width}) and (min-height: #{$tablet_height}) {
+        @content;
+    }
+}
+
+$desktop1000: 1024px;
+@mixin desktop1000 {
+    @media (min-width: #{$desktop1000}) {
+        @content
+    }
+}
+
+$desktop1280: 1280px;
+@mixin desktop1280 {
+    @media (min-width: #{$desktop1280}) {
+        @content
+    }
+}
+
+$desktop1366: 1366px;
+@mixin desktop1366 {
+    @media (min-width: #{$desktop1366}) {
+        @content
+    }
+}
+
+$desktop1500: 1500px;
+@mixin desktop1500 {
+    @media (min-width: #{$desktop1500}) {
+        @content
+    }
+}
+
+// Variables
+$colors: (
+    "primary": #FF6384,
+    "accent": #336699,
+    "text": #9A9A9A
+);
+
+html, body, #vue-element {
+    width: 100vw;
+    height: 100vh;
+
+    font-family: 'Montserrat', sans-serif;
+
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #F5F5F6;
+
+    @include desktop1000 {
+        background-color: #F5F5F6;
+        overflow-y: hidden;
+    }
+
+    // Navigation Style >>>>
+    .navigation {
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px;
+
+        position: fixed;
+        bottom: 0;
+        background-color: map-get($map: $colors, $key: "accent");
+        z-index: 1;
+
+        @include desktop1000 {
+            display: none;
+        }
+
+        .nav-btn {
+            color: white;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 0px 25px;
+
+            @include tablet {
+                margin: 0px 70px;
+                font-size: 26px;
+            }
+
+            .nav-icon {
+                margin-right: 10px;
+                font-size: 18px;
+
+                @include tablet {
+                    font-size: 32px;
+                }
+            }
+        }
+    }
+
+    // Main Style >>>>
+    main {
+
+        @include desktop1000 {
+            display: grid;
+            grid-template-columns: .6fr 1fr;
+            grid-template-rows: 0.1fr 0.7fr;
+            grid-template-areas: 
+                "localstat heatmap"
+                "localstat global";
+        }
+
+        @include desktop1366 {
+            grid-template-columns: .4fr 1fr;
+        }
+
+        // Local Statistics Style >>>>>>>>>>>>>
+        .local-statistics {
+            display: none;
+            padding: 10px;
+            background-color: white;
+            height: 100vh;
+
+            @include desktop1000 {
+                display: block;
+                grid-area: localstat;
+                overflow-y: scroll;
+            }
+
+            .country-name {
+                font-size: 26px;
+                color: map-get($map: $colors, $key: "accent");
+                text-transform: uppercase;
+                margin: 30px 0px 10px 0px;
+    
+                @include tablet {
+                    font-size: 42px;
+                }
+            }
+    
+            .local-graph {
+                margin-top: 15px;
+            }
+    
+            // Search Text Box
+            .search-box {
+                display: flex;
+                margin-top: 10px;
+                font-size: 18px;
+                box-shadow: 0px 5px 10px 0px #bfbfbf;
+    
+                .search-input {
+                    flex-grow: 1;
+                    font-family: 'Montserrat', sans-serif;
+                    border: 0;
+                    padding: 10px;
+    
+                    @include tablet {
+                        padding: 20px
+                    }
+                }
+    
+                .search-input::placeholder {
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: 600;
+    
+                    @include tablet {
+                        font-size: 26px;
+                    }
+                }
+    
+                .search-btn {
+                    display: block;
+                    color: white;
+                    background-color: map-get($map: $colors, $key: "primary");
+                    border: 0;
+                    font-size: 22px;
+                    width: 50px;
+                    height: 40px;
+                }
+            }
+    
+            // Country List
+            .country-list-header {
+                display: inline-block;
+                margin-top: 30px;
+                color: map-get($map: $colors, $key: "primary");
+                font-weight: 700;
+            }
+    
+            .country-list {
+                padding: 0px;
+                
+                .country {
+                    display: flex;
+                    justify-content: space-between;
+                    list-style-type: none;
+    
+                    font-weight: 700;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    color: map-get($map: $colors, $key: "text");
+    
+                    padding: 3px 0px 10px 0px;
+                    border-bottom: 1px solid #707070;
+    
+                    transition: color ease-in-out 0.4s;
+    
+                    @include tablet {
+                        font-size: 22px;
+                    }
+    
+                    .list-cases {
+                        color: map-get($map: $colors, $key: "accent")
+                    }
+                }
+                
+                .country:hover {
+                    cursor: pointer;
+                    color: map-get($map: $colors, $key: "primary");
+                }
+            }
+    
+            .spacer {
+                margin-bottom: 100px;
+            }
+        }
+
+        // Heatmap Style >>>>
+        .heatmap {
+            padding: 10px;
+
+            @include desktop1000 {
+                grid-area: heatmap;
+                padding: 10px;
+            }
+
+            .heatmap-header {
+                margin: 0px;
+                margin-top: 10px;
+                color: map-get($map: $colors, $key: "accent");
+                text-transform: uppercase;
+                font-size: 22px;
+
+                @include tablet {
+                    font-size: 42px;
+                }
+            }
+
+            #region-heatmap {
+                margin-top: 10px;
+
+                @include desktop1000 {
+                    height: 350px !important;
+                }
+            }
+            
+        }
+        
+        // Global Statistics Style >>>>
+        .global-statistics {    
+            background-color: white;
+            border-top: 1px solid #707070;
+
+            padding: 10px 10px;
+
+            @include desktop1000 {
+                grid-area: global;
+                display: grid;
+                grid-template-columns: 1fr 0.8fr;
+                grid-template-rows: 0.3fr 1fr 0.1fr;
+                grid-template-areas: 
+                    "header header"
+                    "graph topfive"
+                    "footer footer";
+            }
+
+            @include desktop1280 {
+                grid-template-rows: 0.1fr 1fr 0.2fr;
+            }
+
+            .global-header {
+                margin: 0px 0px 10px 0px;
+                color: map-get($map: $colors, $key: "accent");
+                text-transform: uppercase;
+                font-size: 22px;
+
+                @include tablet {
+                    font-size: 42px;
+                }
+                
+                @include desktop1000 {
+                    margin-right: 40px;
+                }
+            }
+
+            .global-container-header {
+                @include desktop1000 {
+                    grid-area: header;
+                    display: flex;
+                    align-items: flex-end;
+                }
+
+                @include desktop1280 {
+                    .global-cases {
+                        width: 400px;
+                    }
+                }
+            }
+
+            .global-graph {
+                margin-top: 15px;
+
+                @include desktop1000 {
+                    grid-area: graph;
+                    margin-top: 50px;
+                }
+            }
+
+            .top-five-list-container {
+                @include desktop1000 {
+                    grid-area: topfive;
+                    padding: 10px;
+                }
+            }
+            
+            .top-five {
+                font-size: 12px;
+                color: map-get($map: $colors, $key: "accent");
+
+                @include tablet {
+                    font-size: 22px;
+                }
+            }
+
+            .top-five-list {
+                padding: 0px;
+                margin-bottom: 50px;
+
+                @include desktop1280 {
+                    margin-bottom: 30px;
+                }
+
+                @include desktop1500 {
+                    margin-bottom: 50px;
+                }
+
+                .top-five-entry {
+                    display: flex;
+                    justify-content: space-between;
+
+                    list-style-type: none;
+                    
+                    color: map-get($map: $colors, $key: "text");
+                    font-weight: 600;
+                    padding: 0px 10px;
+
+                    @include tablet {
+                        font-size: 26px;
+                    }
+                    
+                    @include desktop1000 {
+                        font-size: 12px;
+                    }
+
+                    @include desktop1366 {
+                        font-size: 16px;
+                    }
+
+                    .entry-cases {
+                        color: map-get($map: $colors, $key: "accent");
+                        padding:5px 0px;
+                    }
+                }
+            }
+        }
+    }
+
+    // Application Logo Style >>>>
+    .application-logo {
+        margin: 0;
+        font-size: 18px;
+        color: #707070;
+
+        @include tablet {
+            font-size: 32px;
+        }
+    }
+
+    // Case Statistics Style >>>>
+    .case-statistics {
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        grid-template-areas: "confirmed deaths recovered";
+
+        .confirmed {
+            grid-area: confirmed;
+        }
+        
+        .deaths {
+            grid-area: deaths;
+        }
+
+        .recovered {
+            grid-area: recovered;
+        }
+
+        .stat-label {
+            color: map-get($map: $colors, $key: "text");
+            font-size: 10px;
+            font-weight: 600;
+
+            @include tablet {
+                font-size: 22px;
+            }
+        }
+
+        .stat-data {
+            color: map-get($map: $colors, $key: "primary");
+            font-weight: 700;
+            font-size: 22px;
+            display: block;
+
+            @include tablet {
+                font-size: 48px;
+            }
+        }
+    }
+}
+
+.credits {
+    grid-area: footer;
+    color: map-get($map: $colors, $key: "accent");
+    margin-bottom: 70px;
+    
+    @include desktop1000 {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .credit {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+
+        @include desktop1000 {
+            font-weight: 15px;
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+.spinner-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .spinner-main-text {
+        font-weight: 600;
+        font-size: 32px;
+    }
+    
+    .spinner {
+        text-align: center;
+        color: map-get($map: $colors, $key: 'accent')
+    }
+
+    .loader, .loader:before, .loader:after {
+        background: map-get($map: $colors, $key: "primary");;
+        -webkit-animation: load1 1s infinite ease-in-out;
+        animation: load1 1s infinite ease-in-out;
+        width: 1em;
+        height: 4em;
+    }
+    .loader {
+        color: map-get($map: $colors, $key: "primary");;
+        text-indent: -9999em;
+        margin: 88px auto;
+        position: relative;
+        font-size: 11px;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+    }
+    .loader:before, .loader:after {
+        position: absolute;
+        top: 0;
+        content: '';
+    }
+    .loader:before {
+        left: -1.5em;
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+    }
+    .loader:after {
+        left: 1.5em;
+    }
+    @-webkit-keyframes load1 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
+    }
+    @keyframes load1 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
+    }
+
+}
+
+.remove-desktop {
+    @include desktop1000 {
+        display: none;
+    }
+}
+
+.remove-mobile {
+    display: none;
+    @include desktop1000 {
+        display: block;
+    }
+}
